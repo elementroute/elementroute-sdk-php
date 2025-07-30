@@ -23,12 +23,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Elementroute\\ElementrouteSdkPhp\\": "src/"
+            "ElementRoute\\ElementRouteSdkPhp\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Elementroute\\ElementrouteSdkPhp\\Tests\\": "tests/"
+            "ElementRoute\\ElementRouteSdkPhp\\Tests\\": "tests/"
         }
     },
     "scripts": {
