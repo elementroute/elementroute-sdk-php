@@ -1,0 +1,38 @@
+{
+    "name": "elementroute/elementroute-sdk-php",
+    "description": "PHP SDK for elementROUTE API",
+    "type": "library",
+    "licence": "MIT",
+    "authors": [
+        {
+            "name": "Leo Oberle",
+            "email": "leocello@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1.0"
+    },
+    "require-dev": {
+        "pestphp/pest": "^2.36",
+        "laravel/pint": "^1.20"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Elementroute\\ElementrouteSdkPhp\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Elementroute\\ElementrouteSdkPhp\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "lint": "pint",
+        "test": "pest"
+    }
+}
