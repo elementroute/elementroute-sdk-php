@@ -2,14 +2,23 @@
 
 use ElementRoute\ElementRouteSdkPhp\ElementRouteClient;
 
-test('ElementRouteClient can be instantiated without parameters', function () {
-    $elementRoute = new ElementRouteClient();
+describe('ElementRouteClient', function () {
+    it('cannot be instantiated with missing parameters', function () {
+        ElementRouteClient::make();
+    })->expectException(ArgumentCountError::class);
 
-    expect($elementRoute)->toBeInstanceOf(ElementRouteClient::class);
-});
+    it('can be instantiated with client configuration', function () {
+        $elementRoute = ElementRouteClient::make('app_id', 'app_secret');
 
-test('ElementRouteClient can be instantiated with client configuration', function () {
-    $elementRoute = new ElementRouteClient('app_id', 'app_secret');
+        expect($elementRoute)->toBeInstanceOf(ElementRouteClient::class);
+    });
 
-    expect($elementRoute)->toBeInstanceOf(ElementRouteClient::class);
+    it('a base url can be changed in an instance', function () {
+        $elementRoute = ElementRouteClient::make('app_id', 'app_secret');
+        $previousUrl = $elementRoute->getBaseUrl();
+        $elementRoute->setBaseUrl('http://localhost/test');
+
+        expect($elementRoute->getBaseUrl())->toBe('http://localhost/test')
+            ->and($elementRoute->getBaseUrl())->not()->toBe($previousUrl);
+    });
 });

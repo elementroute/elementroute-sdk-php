@@ -2,30 +2,37 @@
 
 namespace ElementRoute\ElementRouteSdkPhp;
 
+use GuzzleHttp\Client;
+
 class ElementRouteClient
 {
     protected string $baseUrl = 'https://www.elementroute.com/api';
 
-    public function __construct(
-        protected string|null $clientId = null,
-        protected string|null $clientSecret = null,
-        protected string $version = 'v1',
-    )
-    {
+    protected Client $client;
 
+    public function __construct(
+        protected string $clientId,
+        protected string $clientSecret,
+        protected string $version = 'v1',
+    ) {
+        $this->client = new Client;
     }
 
     public static function make(
-        string|null $clientId = null,
-        string|null $clientSecret = null,
+        string $clientId,
+        string $clientSecret,
         string $version = 'v1',
-    ): ElementRouteClient
-    {
+    ): ElementRouteClient {
         return new ElementRouteClient(
             clientId: $clientId,
             clientSecret: $clientSecret,
             version: $version,
         );
+    }
+
+    public function getBaseUrl(): string
+    {
+        return $this->baseUrl;
     }
 
     public function setBaseUrl(string $baseUrl): ElementRouteClient
