@@ -2,10 +2,14 @@
 
 namespace ElementRoute\ElementRouteSdkPhp;
 
+use ElementRoute\ElementRouteSdkPhp\Concerns\AuthenticatesApp;
+use ElementRoute\ElementRouteSdkPhp\Concerns\HasEndpoints;
 use GuzzleHttp\Client;
 
 class ErClient
 {
+    use AuthenticatesApp, HasEndpoints;
+
     protected string $baseUrl = 'https://www.elementroute.com/api';
 
     protected Client $client;
@@ -13,7 +17,7 @@ class ErClient
     public function __construct(
         protected string $clientId,
         protected string $clientSecret,
-        protected string $version = 'v1',
+        protected ApiVersion $version = ApiVersion::V1,
     ) {
         $this->client = new Client;
     }
@@ -21,7 +25,7 @@ class ErClient
     public static function make(
         string $clientId,
         string $clientSecret,
-        string $version = 'v1',
+        ApiVersion $version = ApiVersion::V1,
     ): ErClient {
         return new ErClient(
             clientId: $clientId,
@@ -40,5 +44,22 @@ class ErClient
         $this->baseUrl = $baseUrl;
 
         return $this;
+    }
+
+    protected function getFullUri(string $path): string
+    {
+        $url = $this->baseUrl;
+
+        if (! str_ends_with($url, '/')) {
+            $url .= '/';
+        }
+
+        $url .= $this->version->value;
+
+        if (! str_starts_with($path, '/')) {
+            $url .= '/';
+        }
+
+        return $url.$path;
     }
 }
