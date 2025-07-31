@@ -1,20 +1,20 @@
 <?php
 
-use ElementRoute\ElementRouteSdkPhp\ElementRouteClient;
+use ElementRoute\ElementRouteSdkPhp\ErClient;
 
 describe('ElementRouteClient', function () {
     it('cannot be instantiated with missing parameters', function () {
-        ElementRouteClient::make();
+        ErClient::make();
     })->expectException(ArgumentCountError::class);
 
     it('can be instantiated with client configuration', function () {
-        $elementRoute = ElementRouteClient::make('app_id', 'app_secret');
+        $elementRoute = ErClient::make('app_id', 'app_secret');
 
-        expect($elementRoute)->toBeInstanceOf(ElementRouteClient::class);
+        expect($elementRoute)->toBeInstanceOf(ErClient::class);
     });
 
     it('a base url can be changed in an instance', function () {
-        $elementRoute = ElementRouteClient::make('app_id', 'app_secret');
+        $elementRoute = ErClient::make('app_id', 'app_secret');
         $previousUrl = $elementRoute->getBaseUrl();
         $elementRoute->setBaseUrl('http://localhost/test');
 

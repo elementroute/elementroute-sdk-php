@@ -4,7 +4,7 @@ namespace ElementRoute\ElementRouteSdkPhp;
 
 use GuzzleHttp\Client;
 
-class ElementRouteClient
+class ErClient
 {
     protected string $baseUrl = 'https://www.elementroute.com/api';
 
@@ -22,8 +22,8 @@ class ElementRouteClient
         string $clientId,
         string $clientSecret,
         string $version = 'v1',
-    ): ElementRouteClient {
-        return new ElementRouteClient(
+    ): ErClient {
+        return new ErClient(
             clientId: $clientId,
             clientSecret: $clientSecret,
             version: $version,
@@ -35,7 +35,7 @@ class ElementRouteClient
         return $this->baseUrl;
     }
 
-    public function setBaseUrl(string $baseUrl): ElementRouteClient
+    public function setBaseUrl(string $baseUrl): ErClient
     {
         $this->baseUrl = $baseUrl;
 
