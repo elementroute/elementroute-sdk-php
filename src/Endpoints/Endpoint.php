@@ -3,6 +3,11 @@
 namespace ElementRoute\ElementRouteSdkPhp\Endpoints;
 
 use ElementRoute\ElementRouteSdkPhp\ErClient;
+use ElementRoute\ElementRouteSdkPhp\Exceptions\InvalidEndpointException;
+use ElementRoute\ElementRouteSdkPhp\Exceptions\InvalidHttpMethodException;
+use ElementRoute\ElementRouteSdkPhp\HttpMethod;
+use GuzzleHttp\Exception\GuzzleException;
+use Psr\Http\Message\ResponseInterface;
 
 abstract class Endpoint
 {
@@ -13,10 +18,28 @@ abstract class Endpoint
 
     protected static bool $requiresAuth = true;
 
+    protected static HttpMethod $httpMethod;
+
+    protected static bool $isValidEndpoint = true;
+
+    protected array $options = [];
+
     public function __construct(
         protected ErClient $client,
     ) {
         //
+    }
+
+    public static function make(ErClient $client): Endpoint
+    {
+        return new static($client);
+    }
+
+    // ----------------------------------------
+
+    public function getClient(): ErClient
+    {
+        return $this->client;
     }
 
     public static function getPath(): string
@@ -37,5 +60,27 @@ abstract class Endpoint
     public static function requiresAuth(): bool
     {
         return static::$requiresAuth;
+    }
+
+    /**
+     * @throws GuzzleException
+     */
+    public function request(): ResponseInterface
+    {
+        if (! static::$isValidEndpoint) {
+            throw new InvalidEndpointException('This endpoint is not valid. Maybe its path is not complete.');
+        }
+
+        return $this->client->runHttpRequest(static::$httpMethod, static::getPath(), $this->options);
+    }
+
+    // ----------------------------------------
+
+    /**
+     * @throws InvalidHttpMethodException
+     */
+    protected function throwInvalidHttpMethodException(): void
+    {
+        throw new InvalidHttpMethodException('The endpoint does not support this method.');
     }
 }

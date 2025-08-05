@@ -2,13 +2,14 @@
 
 namespace ElementRoute\ElementRouteSdkPhp;
 
-use ElementRoute\ElementRouteSdkPhp\Concerns\AuthenticatesApp;
-use ElementRoute\ElementRouteSdkPhp\Concerns\HasEndpoints;
+use ElementRoute\ElementRouteSdkPhp\Concerns as Concerns;
 use GuzzleHttp\Client;
 
 class ErClient
 {
-    use AuthenticatesApp, HasEndpoints;
+    use Concerns\AuthenticatesApp,
+        Concerns\HasEndpoints,
+        Concerns\RunsHttpRequests;
 
     protected string $baseUrl = 'https://www.elementroute.com/api';
 

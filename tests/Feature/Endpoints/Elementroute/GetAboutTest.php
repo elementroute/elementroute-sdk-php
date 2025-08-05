@@ -1,0 +1,52 @@
+<?php
+
+use ElementRoute\ElementRouteSdkPhp\Endpoints\Elementroute\GetAbout;
+use ElementRoute\ElementRouteSdkPhp\ErClient;
+use ElementRoute\ElementRouteSdkPhp\Exceptions\InvalidHttpMethodException;
+use ElementRoute\ElementRouteSdkPhp\HttpMethod;
+use Psr\Http\Message\ResponseInterface;
+
+describe('Endpoint: about', function () {
+    it('has correct path', function () {
+        $path = GetAbout::getPath();
+
+        expect($path)->toBe('elementroute/about');
+    });
+
+    it('can run', function () {
+        $client = new ErClient($this->clientId, $this->clientSecret);
+        $client->setBaseUrl($_ENV['BASE_URL']);
+        $about = new GetAbout($client);
+
+        expect($about)->toBeInstanceOf(GetAbout::class);
+
+        $response = $about->request();
+        $responseContent = $response->getBody()->getContents();
+
+        expect($response)->toBeInstanceOf(ResponseInterface::class)
+            ->and($response->getStatusCode())->toBe(200)
+            ->and($response->getHeader('Content-Type'))->toContain('application/json')
+            ->and($responseContent)->toBeString()
+            ->and($responseContent)->toContain('"status":"success"');
+    });
+
+    it('can run from client fluent endpoint', function () {
+        $client = new ErClient($this->clientId, $this->clientSecret);
+        $client->setBaseUrl($_ENV['BASE_URL']);
+
+        $response = $client->elementroute()->about()->request();
+        $responseContent = $response->getBody()->getContents();
+
+        expect($response)->toBeInstanceOf(ResponseInterface::class)
+            ->and($response->getStatusCode())->toBe(200)
+            ->and($response->getHeader('Content-Type'))->toContain('application/json')
+            ->and($responseContent)->toBeString()
+            ->and($responseContent)->toContain('"status":"success"');
+    });
+
+    it('errors if try to run from client fluent endpoint with invalid HTTP method', function () {
+        $client = new ErClient($this->clientId, $this->clientSecret);
+        $client->setBaseUrl($_ENV['BASE_URL']);
+        $client->elementroute()->about(HttpMethod::POST)->request();
+    })->expectException(InvalidHttpMethodException::class);
+});

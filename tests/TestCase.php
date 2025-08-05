@@ -8,7 +8,9 @@ use PHPUnit\Framework\TestCase as BaseTestCase;
 abstract class TestCase extends BaseTestCase
 {
     protected string $clientId;
+
     protected string $clientSecret;
+
     protected string $baseUrl;
 
     protected function setUp(): void
