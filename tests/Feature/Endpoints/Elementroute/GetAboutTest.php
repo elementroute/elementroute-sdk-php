@@ -1,7 +1,6 @@
 <?php
 
 use ElementRoute\ElementRouteSdkPhp\Endpoints\Elementroute\GetAbout;
-use ElementRoute\ElementRouteSdkPhp\ErClient;
 use ElementRoute\ElementRouteSdkPhp\Exceptions\InvalidHttpMethodException;
 use ElementRoute\ElementRouteSdkPhp\HttpMethod;
 use Psr\Http\Message\ResponseInterface;
@@ -14,8 +13,7 @@ describe('Endpoint: about', function () {
     });
 
     it('can run', function () {
-        $client = new ErClient($this->clientId, $this->clientSecret);
-        $client->setBaseUrl($_ENV['BASE_URL']);
+        $client = $this->makeErClient();
         $about = new GetAbout($client);
 
         expect($about)->toBeInstanceOf(GetAbout::class);
@@ -31,8 +29,7 @@ describe('Endpoint: about', function () {
     });
 
     it('can run from client fluent endpoint', function () {
-        $client = new ErClient($this->clientId, $this->clientSecret);
-        $client->setBaseUrl($_ENV['BASE_URL']);
+        $client = $this->makeErClient();
 
         $response = $client->elementroute()->about()->request();
         $responseContent = $response->getBody()->getContents();
@@ -45,8 +42,7 @@ describe('Endpoint: about', function () {
     });
 
     it('errors if try to run from client fluent endpoint with invalid HTTP method', function () {
-        $client = new ErClient($this->clientId, $this->clientSecret);
-        $client->setBaseUrl($_ENV['BASE_URL']);
+        $client = $this->makeErClient();
         $client->elementroute()->about(HttpMethod::POST)->request();
     })->expectException(InvalidHttpMethodException::class);
 });

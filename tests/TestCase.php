@@ -3,6 +3,8 @@
 namespace ElementRoute\ElementRouteSdkPhp\Tests;
 
 use Dotenv\Dotenv;
+use ElementRoute\ElementRouteSdkPhp\ApiVersion;
+use ElementRoute\ElementRouteSdkPhp\ErClient;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -24,5 +26,11 @@ abstract class TestCase extends BaseTestCase
         $this->clientId = $_ENV['CLIENT_ID'];
         $this->clientSecret = $_ENV['CLIENT_SECRET'];
         $this->baseUrl = $_ENV['BASE_URL'];
+    }
+
+    protected function makeErClient(ApiVersion $version = ApiVersion::V1): ErClient
+    {
+        return ErClient::make($this->clientId, $this->clientSecret, $version)
+            ->setBaseUrl($this->baseUrl);
     }
 }
