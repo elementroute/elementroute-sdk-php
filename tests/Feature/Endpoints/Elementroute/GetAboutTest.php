@@ -5,7 +5,7 @@ use ElementRoute\ElementRouteSdkPhp\Exceptions\InvalidHttpMethodException;
 use ElementRoute\ElementRouteSdkPhp\HttpMethod;
 use Psr\Http\Message\ResponseInterface;
 
-describe('Endpoint: about', function () {
+describe('Endpoint: elementroute/about', function () {
     it('has correct path', function () {
         $path = GetAbout::getPath();
 
