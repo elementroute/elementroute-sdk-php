@@ -2,22 +2,29 @@
 
 namespace ElementRoute\ElementRouteSdkPhp\Concerns;
 
+use ElementRoute\ElementRouteSdkPhp\ErAccessToken;
 use GuzzleHttp\Exception\GuzzleException;
 
 trait AuthenticatesApp
 {
-    protected string $token;
+    protected ?ErAccessToken $accessToken = null;
 
     /**
      * @throws GuzzleException
      */
-    protected function authenticate(): self
+    public function authenticate(bool $forceNewToken = false): self
     {
-        if (! empty($this->token)) {
+        if ($forceNewToken) {
+            $this->accessToken = null;
+        }
+
+        if ($this->isAuthenticated()) {
             return $this;
         }
 
-        $response = $this->client->post($this->getFullUri('/auth/token'), [
+        $uri = $this->baseUrl.(! str_ends_with($this->baseUrl, '/') ? '/' : '').'auth/token';
+
+        $response = $this->client->post($uri, [
             'form_params' => [
                 'client_id' => $this->clientId,
                 'client_secret' => $this->clientSecret,
@@ -25,11 +32,35 @@ trait AuthenticatesApp
             ],
         ]);
 
-        $data = json_decode($response->getBody(), true);
+        $data = json_decode($response->getBody()->getContents(), true);
 
-        var_dump($data);
-        exit;
+        $this->accessToken = new ErAccessToken($data['access_token'], $data['token_type'], $data['expires_in']);
 
-        // return $data['access_token'];
+        return $this;
+    }
+
+    public function isAuthenticated(): bool
+    {
+        return ! is_null($this->accessToken) && $this->accessToken->isValid();
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->accessToken?->getAccessToken();
+    }
+
+    public function getTokenType(): ?string
+    {
+        return $this->accessToken?->getTokenType();
+    }
+
+    public function getTokenExpiry(): ?\DateTimeInterface
+    {
+        return $this->accessToken?->getTokenExpiry();
+    }
+
+    public function getTokenExpiresIn(): ?int
+    {
+        return $this->accessToken?->getExpiresIn();
     }
 }

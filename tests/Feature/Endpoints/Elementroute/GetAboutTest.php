@@ -12,6 +12,10 @@ describe('Endpoint: elementroute/about', function () {
         expect($path)->toBe('elementroute/about');
     });
 
+    it('does not require authentication', function () {
+        expect(GetAbout::requiresAuth())->toBeFalse();
+    });
+
     it('can run', function () {
         $client = $this->makeErClient();
         $about = new GetAbout($client);
