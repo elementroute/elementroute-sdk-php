@@ -3,6 +3,7 @@
 namespace ElementRoute\ElementRouteSdkPhp\Endpoints;
 
 use ElementRoute\ElementRouteSdkPhp\Endpoints\Elementroute\GetAbout;
+use ElementRoute\ElementRouteSdkPhp\Endpoints\Elementroute\GetTestAuth;
 use ElementRoute\ElementRouteSdkPhp\HttpMethod;
 
 class Elementroute extends Endpoint
@@ -15,6 +16,14 @@ class Elementroute extends Endpoint
     {
         return match ($httpMethod) {
             HttpMethod::GET => new GetAbout($this->client),
+            default => $this->throwInvalidHttpMethodException(),
+        };
+    }
+
+    public function testAuth(HttpMethod $httpMethod = HttpMethod::GET): GetTestAuth
+    {
+        return match ($httpMethod) {
+            HttpMethod::GET => new GetTestAuth($this->client),
             default => $this->throwInvalidHttpMethodException(),
         };
     }

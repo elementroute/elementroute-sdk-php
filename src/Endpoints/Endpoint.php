@@ -71,7 +71,7 @@ abstract class Endpoint
             throw new InvalidEndpointException('This endpoint is not valid. Maybe its path is not complete.');
         }
 
-        return $this->client->runHttpRequest(static::$httpMethod, static::getPath(), $this->options);
+        return $this->client->runHttpRequest(static::$httpMethod, static::getPath(), static::requiresAuth(), $this->options);
     }
 
     // ----------------------------------------
