@@ -1,6 +1,8 @@
 <?php
 
 use ElementRoute\ElementRouteSdkPhp\Endpoints\Run\Get_RunId_Endpoint;
+use GuzzleHttp\Exception\ClientException;
+use Psr\Http\Message\ResponseInterface;
 
 describe('Endpoint: run/{id}', function () {
     it('has correct path', function () {
@@ -19,6 +21,20 @@ describe('Endpoint: run/{id}', function () {
 
         expect($endpoint)->toBeInstanceOf(Get_RunId_Endpoint::class)
             ->and($endpoint->getPathWithReplaces())->toBe('run/test-id');
+    });
+
+    it('returns "Not found" error if an invalid ID is used', function () {
+        $client = $this->makeErClient();
+        try {
+            $client->run()->_id_('not-a-valid-id')->get();
+
+            // It shouldn't get here - or it fails the test
+            expect(true)->toBeFalse();
+        } catch (ClientException $e) {
+            expect($e->getCode())->toBe(404)
+                ->and($e->getResponse()->getStatusCode())->toBe(404)
+                ->and($e->getResponse()->getBody()->getContents())->toContain('error')->toContain('Run ID not found');
+        }
     });
 
     it('can run', function () {
