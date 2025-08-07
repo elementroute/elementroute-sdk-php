@@ -2,22 +2,23 @@
 
 namespace ElementRoute\ElementRouteSdkPhp\Endpoints\Run;
 
-use ElementRoute\ElementRouteSdkPhp\Endpoints\Endpoint;
-use ElementRoute\ElementRouteSdkPhp\Endpoints\Run;
+use ElementRoute\ElementRouteSdkPhp\Endpoints\RunEndpoint;
 use ElementRoute\ElementRouteSdkPhp\ErClient;
 use ElementRoute\ElementRouteSdkPhp\HttpMethod;
 
-class Get_Id_ extends Endpoint
+class Get_RunId_Endpoint extends RunEndpoint
 {
-    protected static string $path = '{id}';
+    protected static string $path = '{runId}';
 
-    protected static ?string $parentEndpoint = Run::class;
+    protected static ?string $parentEndpoint = RunEndpoint::class;
 
     protected static HttpMethod $httpMethod = HttpMethod::GET;
 
+    protected static bool $isValidEndpoint = true;
+
     public function __construct(
         ErClient $client,
-        protected string $id,
+        protected string $runId,
     ) {
         parent::__construct($client);
     }

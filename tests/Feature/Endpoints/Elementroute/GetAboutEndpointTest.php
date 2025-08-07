@@ -1,28 +1,28 @@
 <?php
 
-use ElementRoute\ElementRouteSdkPhp\Endpoints\Elementroute\GetTestAuth;
+use ElementRoute\ElementRouteSdkPhp\Endpoints\Elementroute\GetAboutEndpoint;
 use ElementRoute\ElementRouteSdkPhp\Exceptions\InvalidHttpMethodException;
 use ElementRoute\ElementRouteSdkPhp\HttpMethod;
 use Psr\Http\Message\ResponseInterface;
 
-describe('Endpoint: elementroute/test-auth', function () {
+describe('Endpoint: elementroute/about', function () {
     it('has correct path', function () {
-        $path = GetTestAuth::getPath();
+        $path = GetAboutEndpoint::getPath();
 
-        expect($path)->toBe('elementroute/test-auth');
+        expect($path)->toBe('elementroute/about');
     });
 
-    it('requires authentication', function () {
-        expect(GetTestAuth::requiresAuth())->toBeTrue();
+    it('does not require authentication', function () {
+        expect(GetAboutEndpoint::requiresAuth())->toBeFalse();
     });
 
     it('can run', function () {
         $client = $this->makeErClient();
-        $endpoint = new GetTestAuth($client);
+        $about = new GetAboutEndpoint($client);
 
-        expect($endpoint)->toBeInstanceOf(GetTestAuth::class);
+        expect($about)->toBeInstanceOf(GetAboutEndpoint::class);
 
-        $response = $endpoint->request();
+        $response = $about->request();
         $responseContent = $response->getBody()->getContents();
 
         expect($response)->toBeInstanceOf(ResponseInterface::class)
@@ -35,7 +35,7 @@ describe('Endpoint: elementroute/test-auth', function () {
     it('can run from client fluent endpoint', function () {
         $client = $this->makeErClient();
 
-        $response = $client->elementroute()->testAuth()->request();
+        $response = $client->elementroute()->about()->request();
         $responseContent = $response->getBody()->getContents();
 
         expect($response)->toBeInstanceOf(ResponseInterface::class)
@@ -47,6 +47,6 @@ describe('Endpoint: elementroute/test-auth', function () {
 
     it('errors if try to run from client fluent endpoint with invalid HTTP method', function () {
         $client = $this->makeErClient();
-        $client->elementroute()->testAuth(HttpMethod::POST)->request();
+        $client->elementroute()->about(HttpMethod::POST)->request();
     })->expectException(InvalidHttpMethodException::class);
 });

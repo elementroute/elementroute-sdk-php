@@ -20,7 +20,7 @@ abstract class Endpoint
 
     protected static HttpMethod $httpMethod;
 
-    protected static bool $isValidEndpoint = true;
+    protected static bool $isValidEndpoint;
 
     protected array $options = [];
 

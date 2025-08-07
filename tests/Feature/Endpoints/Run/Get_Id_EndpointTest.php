@@ -1,23 +1,23 @@
 <?php
 
-use ElementRoute\ElementRouteSdkPhp\Endpoints\Run\Get_Id_;
+use ElementRoute\ElementRouteSdkPhp\Endpoints\Run\Get_RunId_Endpoint;
 
 describe('Endpoint: run/{id}', function () {
     it('has correct path', function () {
-        $path = Get_Id_::getPath();
+        $path = Get_RunId_Endpoint::getPath();
 
-        expect($path)->toBe('run/{id}');
+        expect($path)->toBe('run/{runId}');
     });
 
     it('requires authentication', function () {
-        expect(Get_Id_::requiresAuth())->toBeTrue();
+        expect(Get_RunId_Endpoint::requiresAuth())->toBeTrue();
     });
 
     test('path with replaces works correctly', function () {
         $client = $this->makeErClient();
-        $endpoint = new Get_Id_($client, 'test-id');
+        $endpoint = new Get_RunId_Endpoint($client, 'test-id');
 
-        expect($endpoint)->toBeInstanceOf(Get_Id_::class)
+        expect($endpoint)->toBeInstanceOf(Get_RunId_Endpoint::class)
             ->and($endpoint->getPathWithReplaces())->toBe('run/test-id');
     });
 
