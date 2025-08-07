@@ -18,8 +18,6 @@ abstract class Endpoint
 
     protected static bool $requiresAuth = true;
 
-    protected static HttpMethod $httpMethod;
-
     protected static bool $isValidEndpoint;
 
     protected array $options = [];
@@ -74,13 +72,57 @@ abstract class Endpoint
     /**
      * @throws GuzzleException
      */
-    public function request(): ResponseInterface
+    public function request(HttpMethod $httpMethod, array $queryParameters = [], array $bodyParameters = [], array $headerParameters = []): ResponseInterface
     {
         if (! static::$isValidEndpoint) {
             throw new InvalidEndpointException('This endpoint is not valid. Maybe its path is not complete.');
         }
 
-        return $this->client->runHttpRequest(static::$httpMethod, static::getPath(), static::requiresAuth(), $this->options);
+        // TODO: prepare all query parameters
+        // TODO: prepare all body parameters
+        // TODO: prepare all header parameters
+
+        return $this->client->runHttpRequest($httpMethod, static::getPath(), static::requiresAuth(), $this->options);
+    }
+
+    /**
+     * @throws GuzzleException
+     */
+    public function get(array $queryParameters = [], array $bodyParameters = [], array $headerParameters = []): ResponseInterface
+    {
+        return $this->request(HttpMethod::GET, $queryParameters, $bodyParameters, $headerParameters);
+    }
+
+    /**
+     * @throws GuzzleException
+     */
+    public function post(array $queryParameters = [], array $bodyParameters = [], array $headerParameters = []): ResponseInterface
+    {
+        return $this->request(HttpMethod::POST, $queryParameters, $bodyParameters, $headerParameters);
+    }
+
+    /**
+     * @throws GuzzleException
+     */
+    public function put(array $queryParameters = [], array $bodyParameters = [], array $headerParameters = []): ResponseInterface
+    {
+        return $this->request(HttpMethod::PUT, $queryParameters, $bodyParameters, $headerParameters);
+    }
+
+    /**
+     * @throws GuzzleException
+     */
+    public function patch(array $queryParameters = [], array $bodyParameters = [], array $headerParameters = []): ResponseInterface
+    {
+        return $this->request(HttpMethod::PATCH, $queryParameters, $bodyParameters, $headerParameters);
+    }
+
+    /**
+     * @throws GuzzleException
+     */
+    public function delete(array $queryParameters = [], array $bodyParameters = [], array $headerParameters = []): ResponseInterface
+    {
+        return $this->request(HttpMethod::DELETE, $queryParameters, $bodyParameters, $headerParameters);
     }
 
     // ----------------------------------------

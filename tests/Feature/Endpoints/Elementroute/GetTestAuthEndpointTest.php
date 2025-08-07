@@ -3,6 +3,7 @@
 use ElementRoute\ElementRouteSdkPhp\Endpoints\Elementroute\GetTestAuthEndpoint;
 use ElementRoute\ElementRouteSdkPhp\Exceptions\InvalidHttpMethodException;
 use ElementRoute\ElementRouteSdkPhp\HttpMethod;
+use GuzzleHttp\Exception\ServerException;
 use Psr\Http\Message\ResponseInterface;
 
 describe('Endpoint: elementroute/test-auth', function () {
@@ -22,7 +23,7 @@ describe('Endpoint: elementroute/test-auth', function () {
 
         expect($endpoint)->toBeInstanceOf(GetTestAuthEndpoint::class);
 
-        $response = $endpoint->request();
+        $response = $endpoint->get();
         $responseContent = $response->getBody()->getContents();
 
         expect($response)->toBeInstanceOf(ResponseInterface::class)
@@ -35,7 +36,7 @@ describe('Endpoint: elementroute/test-auth', function () {
     it('can run from client fluent endpoint', function () {
         $client = $this->makeErClient();
 
-        $response = $client->elementroute()->testAuth()->request();
+        $response = $client->elementroute()->testAuth()->get();
         $responseContent = $response->getBody()->getContents();
 
         expect($response)->toBeInstanceOf(ResponseInterface::class)
@@ -45,8 +46,23 @@ describe('Endpoint: elementroute/test-auth', function () {
             ->and($responseContent)->toContain('"status":"success"');
     });
 
-    it('errors if try to run from client fluent endpoint with invalid HTTP method', function () {
+    it('errors if try to run from client fluent endpoint with invalid HTTP method (POST)', function () {
         $client = $this->makeErClient();
-        $client->elementroute()->testAuth(HttpMethod::POST)->request();
-    })->expectException(InvalidHttpMethodException::class);
+        $client->elementroute()->testAuth()->post();
+    })->expectException(ServerException::class);
+
+    it('errors if try to run from client fluent endpoint with invalid HTTP method (PUT)', function () {
+        $client = $this->makeErClient();
+        $client->elementroute()->testAuth()->put();
+    })->expectException(ServerException::class);
+
+    it('errors if try to run from client fluent endpoint with invalid HTTP method (PATCH)', function () {
+        $client = $this->makeErClient();
+        $client->elementroute()->testAuth()->patch();
+    })->expectException(ServerException::class);
+
+    it('errors if try to run from client fluent endpoint with invalid HTTP method (DELETE)', function () {
+        $client = $this->makeErClient();
+        $client->elementroute()->testAuth()->delete();
+    })->expectException(ServerException::class);
 });

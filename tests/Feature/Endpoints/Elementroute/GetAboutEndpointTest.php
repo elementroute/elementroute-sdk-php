@@ -1,8 +1,7 @@
 <?php
 
 use ElementRoute\ElementRouteSdkPhp\Endpoints\Elementroute\GetAboutEndpoint;
-use ElementRoute\ElementRouteSdkPhp\Exceptions\InvalidHttpMethodException;
-use ElementRoute\ElementRouteSdkPhp\HttpMethod;
+use GuzzleHttp\Exception\ServerException;
 use Psr\Http\Message\ResponseInterface;
 
 describe('Endpoint: elementroute/about', function () {
@@ -22,7 +21,7 @@ describe('Endpoint: elementroute/about', function () {
 
         expect($about)->toBeInstanceOf(GetAboutEndpoint::class);
 
-        $response = $about->request();
+        $response = $about->get();
         $responseContent = $response->getBody()->getContents();
 
         expect($response)->toBeInstanceOf(ResponseInterface::class)
@@ -35,7 +34,7 @@ describe('Endpoint: elementroute/about', function () {
     it('can run from client fluent endpoint', function () {
         $client = $this->makeErClient();
 
-        $response = $client->elementroute()->about()->request();
+        $response = $client->elementroute()->about()->get();
         $responseContent = $response->getBody()->getContents();
 
         expect($response)->toBeInstanceOf(ResponseInterface::class)
@@ -45,8 +44,23 @@ describe('Endpoint: elementroute/about', function () {
             ->and($responseContent)->toContain('"status":"success"');
     });
 
-    it('errors if try to run from client fluent endpoint with invalid HTTP method', function () {
+    it('errors if try to run from client fluent endpoint with invalid HTTP method (POST)', function () {
         $client = $this->makeErClient();
-        $client->elementroute()->about(HttpMethod::POST)->request();
-    })->expectException(InvalidHttpMethodException::class);
+        $client->elementroute()->about()->post();
+    })->expectException(ServerException::class);
+
+    it('errors if try to run from client fluent endpoint with invalid HTTP method (PUT)', function () {
+        $client = $this->makeErClient();
+        $client->elementroute()->about()->put();
+    })->expectException(ServerException::class);
+
+    it('errors if try to run from client fluent endpoint with invalid HTTP method (PATCH)', function () {
+        $client = $this->makeErClient();
+        $client->elementroute()->about()->patch();
+    })->expectException(ServerException::class);
+
+    it('errors if try to run from client fluent endpoint with invalid HTTP method (DELETE)', function () {
+        $client = $this->makeErClient();
+        $client->elementroute()->about()->delete();
+    })->expectException(ServerException::class);
 });
