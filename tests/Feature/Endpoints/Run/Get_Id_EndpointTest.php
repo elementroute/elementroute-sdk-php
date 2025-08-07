@@ -2,6 +2,7 @@
 
 use ElementRoute\ElementRouteSdkPhp\Endpoints\Run\Get_RunId_Endpoint;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
 use Psr\Http\Message\ResponseInterface;
 
 describe('Endpoint: run/{id}', function () {
@@ -45,7 +46,23 @@ describe('Endpoint: run/{id}', function () {
         // TODO
     })->todo();
 
-    it('errors if try to run from client fluent endpoint with invalid HTTP method', function () {
-        // TODO
-    })->todo();
+    it('errors if try to run from client fluent endpoint with invalid HTTP method (POST)', function () {
+        $client = $this->makeErClient();
+        $client->run()->_id_('any-id')->post();
+    })->expectException(ServerException::class);
+
+    it('errors if try to run from client fluent endpoint with invalid HTTP method (PUT)', function () {
+        $client = $this->makeErClient();
+        $client->run()->_id_('any-id')->put();
+    })->expectException(ServerException::class);
+
+    it('errors if try to run from client fluent endpoint with invalid HTTP method (PATCH)', function () {
+        $client = $this->makeErClient();
+        $client->run()->_id_('any-id')->patch();
+    })->expectException(ServerException::class);
+
+    it('errors if try to run from client fluent endpoint with invalid HTTP method (DELETE)', function () {
+        $client = $this->makeErClient();
+        $client->run()->_id_('any-id')->delete();
+    })->expectException(ServerException::class);
 });
