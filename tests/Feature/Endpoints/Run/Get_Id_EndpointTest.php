@@ -3,7 +3,6 @@
 use ElementRoute\ElementRouteSdkPhp\Endpoints\Run\Get_RunId_Endpoint;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
-use Psr\Http\Message\ResponseInterface;
 
 describe('Endpoint: run/{id}', function () {
     it('has correct path', function () {

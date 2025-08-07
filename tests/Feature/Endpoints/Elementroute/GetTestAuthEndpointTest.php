@@ -1,8 +1,6 @@
 <?php
 
 use ElementRoute\ElementRouteSdkPhp\Endpoints\Elementroute\GetTestAuthEndpoint;
-use ElementRoute\ElementRouteSdkPhp\Exceptions\InvalidHttpMethodException;
-use ElementRoute\ElementRouteSdkPhp\HttpMethod;
 use GuzzleHttp\Exception\ServerException;
 use Psr\Http\Message\ResponseInterface;
 
