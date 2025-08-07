@@ -57,6 +57,15 @@ abstract class Endpoint
         return $path.static::$path;
     }
 
+    public function getPathWithReplaces(): string
+    {
+        return preg_replace_callback(
+            pattern: '/(\{.*?\})/',
+            callback: fn ($matches) => $this->{trim($matches[1], '{}')},
+            subject: static::getPath(),
+        );
+    }
+
     public static function requiresAuth(): bool
     {
         return static::$requiresAuth;
