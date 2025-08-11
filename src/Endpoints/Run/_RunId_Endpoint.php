@@ -5,7 +5,7 @@ namespace ElementRoute\ElementRouteSdkPhp\Endpoints\Run;
 use ElementRoute\ElementRouteSdkPhp\Endpoints\RunEndpoint;
 use ElementRoute\ElementRouteSdkPhp\ErClient;
 
-class Get_RunId_Endpoint extends RunEndpoint
+class _RunId_Endpoint extends RunEndpoint
 {
     protected static string $path = '{runId}';
 

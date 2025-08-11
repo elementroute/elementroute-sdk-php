@@ -2,7 +2,7 @@
 
 namespace ElementRoute\ElementRouteSdkPhp\Endpoints;
 
-use ElementRoute\ElementRouteSdkPhp\Endpoints\Run\Get_RunId_Endpoint;
+use ElementRoute\ElementRouteSdkPhp\Endpoints\Run\_RunId_Endpoint;
 
 class RunEndpoint extends Endpoint
 {
@@ -10,8 +10,8 @@ class RunEndpoint extends Endpoint
 
     protected static bool $isValidEndpoint = false;
 
-    public function _id_(string $id): Get_RunId_Endpoint
+    public function _id_(string $id): _RunId_Endpoint
     {
-        return new Get_RunId_Endpoint($this->client, $id);
+        return new _RunId_Endpoint($this->client, $id);
     }
 }

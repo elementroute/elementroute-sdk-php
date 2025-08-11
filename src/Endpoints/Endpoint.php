@@ -96,7 +96,7 @@ abstract class Endpoint
     /**
      * @throws GuzzleException
      */
-    public function post(array $queryParameters = [], array $bodyParameters = [], array $headerParameters = []): ResponseInterface
+    public function post(array $bodyParameters = [], array $queryParameters = [], array $headerParameters = []): ResponseInterface
     {
         return $this->request(HttpMethod::POST, $queryParameters, $bodyParameters, $headerParameters);
     }
@@ -104,7 +104,7 @@ abstract class Endpoint
     /**
      * @throws GuzzleException
      */
-    public function put(array $queryParameters = [], array $bodyParameters = [], array $headerParameters = []): ResponseInterface
+    public function put(array $bodyParameters = [], array $queryParameters = [], array $headerParameters = []): ResponseInterface
     {
         return $this->request(HttpMethod::PUT, $queryParameters, $bodyParameters, $headerParameters);
     }
@@ -112,7 +112,7 @@ abstract class Endpoint
     /**
      * @throws GuzzleException
      */
-    public function patch(array $queryParameters = [], array $bodyParameters = [], array $headerParameters = []): ResponseInterface
+    public function patch(array $bodyParameters = [], array $queryParameters = [], array $headerParameters = []): ResponseInterface
     {
         return $this->request(HttpMethod::PATCH, $queryParameters, $bodyParameters, $headerParameters);
     }

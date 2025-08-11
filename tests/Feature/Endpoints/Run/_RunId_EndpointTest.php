@@ -1,25 +1,25 @@
 <?php
 
-use ElementRoute\ElementRouteSdkPhp\Endpoints\Run\Get_RunId_Endpoint;
+use ElementRoute\ElementRouteSdkPhp\Endpoints\Run\_RunId_Endpoint;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
 
-describe('Endpoint: run/{id}', function () {
+describe('GET run/{runId}', function () {
     it('has correct path', function () {
-        $path = Get_RunId_Endpoint::getPath();
+        $path = _RunId_Endpoint::getPath();
 
         expect($path)->toBe('run/{runId}');
     });
 
     it('requires authentication', function () {
-        expect(Get_RunId_Endpoint::requiresAuth())->toBeTrue();
+        expect(_RunId_Endpoint::requiresAuth())->toBeTrue();
     });
 
     test('path with replaces works correctly', function () {
         $client = $this->makeErClient();
-        $endpoint = new Get_RunId_Endpoint($client, 'test-id');
+        $endpoint = new _RunId_Endpoint($client, 'test-id');
 
-        expect($endpoint)->toBeInstanceOf(Get_RunId_Endpoint::class)
+        expect($endpoint)->toBeInstanceOf(_RunId_Endpoint::class)
             ->and($endpoint->getPathWithReplaces())->toBe('run/test-id');
     });
 
@@ -44,22 +44,30 @@ describe('Endpoint: run/{id}', function () {
     it('can run from client fluent endpoint', function () {
         // TODO
     })->todo();
+});
 
+describe('POST run/{runId}', function () {
     it('errors if try to run from client fluent endpoint with invalid HTTP method (POST)', function () {
         $client = $this->makeErClient();
         $client->run()->_id_('any-id')->post();
     })->expectException(ServerException::class);
+});
 
+describe('PUT run/{runId}', function () {
     it('errors if try to run from client fluent endpoint with invalid HTTP method (PUT)', function () {
         $client = $this->makeErClient();
         $client->run()->_id_('any-id')->put();
     })->expectException(ServerException::class);
+});
 
+describe('PATCH run/{runId}', function () {
     it('errors if try to run from client fluent endpoint with invalid HTTP method (PATCH)', function () {
         $client = $this->makeErClient();
         $client->run()->_id_('any-id')->patch();
     })->expectException(ServerException::class);
+});
 
+describe('DELETE run/{runId}', function () {
     it('errors if try to run from client fluent endpoint with invalid HTTP method (DELETE)', function () {
         $client = $this->makeErClient();
         $client->run()->_id_('any-id')->delete();

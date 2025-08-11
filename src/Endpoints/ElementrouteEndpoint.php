@@ -2,8 +2,8 @@
 
 namespace ElementRoute\ElementRouteSdkPhp\Endpoints;
 
-use ElementRoute\ElementRouteSdkPhp\Endpoints\Elementroute\GetAboutEndpoint;
-use ElementRoute\ElementRouteSdkPhp\Endpoints\Elementroute\GetTestAuthEndpoint;
+use ElementRoute\ElementRouteSdkPhp\Endpoints\Elementroute\AboutEndpoint;
+use ElementRoute\ElementRouteSdkPhp\Endpoints\Elementroute\TestAuthEndpoint;
 
 class ElementrouteEndpoint extends Endpoint
 {
@@ -11,13 +11,13 @@ class ElementrouteEndpoint extends Endpoint
 
     protected static bool $isValidEndpoint = false;
 
-    public function about(): GetAboutEndpoint
+    public function about(): AboutEndpoint
     {
-        return new GetAboutEndpoint($this->client);
+        return new AboutEndpoint($this->client);
     }
 
-    public function testAuth(): GetTestAuthEndpoint
+    public function testAuth(): TestAuthEndpoint
     {
-        return new GetTestAuthEndpoint($this->client);
+        return new TestAuthEndpoint($this->client);
     }
 }

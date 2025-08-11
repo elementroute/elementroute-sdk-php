@@ -1,27 +1,27 @@
 <?php
 
-use ElementRoute\ElementRouteSdkPhp\Endpoints\Elementroute\GetTestAuthEndpoint;
+use ElementRoute\ElementRouteSdkPhp\Endpoints\Elementroute\AboutEndpoint;
 use GuzzleHttp\Exception\ServerException;
 use Psr\Http\Message\ResponseInterface;
 
-describe('Endpoint: elementroute/test-auth', function () {
+describe('GET elementroute/about', function () {
     it('has correct path', function () {
-        $path = GetTestAuthEndpoint::getPath();
+        $path = AboutEndpoint::getPath();
 
-        expect($path)->toBe('elementroute/test-auth');
+        expect($path)->toBe('elementroute/about');
     });
 
-    it('requires authentication', function () {
-        expect(GetTestAuthEndpoint::requiresAuth())->toBeTrue();
+    it('does not require authentication', function () {
+        expect(AboutEndpoint::requiresAuth())->toBeFalse();
     });
 
     it('can run', function () {
         $client = $this->makeErClient();
-        $endpoint = new GetTestAuthEndpoint($client);
+        $about = new AboutEndpoint($client);
 
-        expect($endpoint)->toBeInstanceOf(GetTestAuthEndpoint::class);
+        expect($about)->toBeInstanceOf(AboutEndpoint::class);
 
-        $response = $endpoint->get();
+        $response = $about->get();
         $responseContent = $response->getBody()->getContents();
 
         expect($response)->toBeInstanceOf(ResponseInterface::class)
@@ -34,7 +34,7 @@ describe('Endpoint: elementroute/test-auth', function () {
     it('can run from client fluent endpoint', function () {
         $client = $this->makeErClient();
 
-        $response = $client->elementroute()->testAuth()->get();
+        $response = $client->elementroute()->about()->get();
         $responseContent = $response->getBody()->getContents();
 
         expect($response)->toBeInstanceOf(ResponseInterface::class)
@@ -43,24 +43,32 @@ describe('Endpoint: elementroute/test-auth', function () {
             ->and($responseContent)->toBeString()
             ->and($responseContent)->toContain('"status":"success"');
     });
+});
 
+describe('POST elementroute/about', function () {
     it('errors if try to run from client fluent endpoint with invalid HTTP method (POST)', function () {
         $client = $this->makeErClient();
-        $client->elementroute()->testAuth()->post();
+        $client->elementroute()->about()->post();
     })->expectException(ServerException::class);
+});
 
+describe('PUT elementroute/about', function () {
     it('errors if try to run from client fluent endpoint with invalid HTTP method (PUT)', function () {
         $client = $this->makeErClient();
-        $client->elementroute()->testAuth()->put();
+        $client->elementroute()->about()->put();
     })->expectException(ServerException::class);
+});
 
+describe('PATCH elementroute/about', function () {
     it('errors if try to run from client fluent endpoint with invalid HTTP method (PATCH)', function () {
         $client = $this->makeErClient();
-        $client->elementroute()->testAuth()->patch();
+        $client->elementroute()->about()->patch();
     })->expectException(ServerException::class);
+});
 
+describe('DELETE elementroute/about', function () {
     it('errors if try to run from client fluent endpoint with invalid HTTP method (DELETE)', function () {
         $client = $this->makeErClient();
-        $client->elementroute()->testAuth()->delete();
+        $client->elementroute()->about()->delete();
     })->expectException(ServerException::class);
 });

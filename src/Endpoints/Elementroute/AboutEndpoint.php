@@ -4,7 +4,7 @@ namespace ElementRoute\ElementRouteSdkPhp\Endpoints\Elementroute;
 
 use ElementRoute\ElementRouteSdkPhp\Endpoints\ElementrouteEndpoint;
 
-class GetAboutEndpoint extends ElementrouteEndpoint
+class AboutEndpoint extends ElementrouteEndpoint
 {
     protected static string $path = 'about';
 

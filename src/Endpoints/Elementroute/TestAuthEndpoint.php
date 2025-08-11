@@ -4,7 +4,7 @@ namespace ElementRoute\ElementRouteSdkPhp\Endpoints\Elementroute;
 
 use ElementRoute\ElementRouteSdkPhp\Endpoints\ElementrouteEndpoint;
 
-class GetTestAuthEndpoint extends ElementrouteEndpoint
+class TestAuthEndpoint extends ElementrouteEndpoint
 {
     protected static string $path = 'test-auth';
 
