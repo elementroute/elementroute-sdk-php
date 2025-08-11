@@ -3,6 +3,7 @@
 namespace ElementRoute\ElementRouteSdkPhp\Concerns;
 
 use ElementRoute\ElementRouteSdkPhp\Endpoints\ElementrouteEndpoint;
+use ElementRoute\ElementRouteSdkPhp\Endpoints\MicrosoftSharepointEndpoint;
 use ElementRoute\ElementRouteSdkPhp\Endpoints\RunEndpoint;
 
 trait HasEndpoints
@@ -15,5 +16,10 @@ trait HasEndpoints
     public function run(): RunEndpoint
     {
         return new RunEndpoint($this);
+    }
+
+    public function microsoftSharepoint(): MicrosoftSharepointEndpoint
+    {
+        return new MicrosoftSharepointEndpoint($this);
     }
 }

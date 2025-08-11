@@ -33,4 +33,12 @@ abstract class TestCase extends BaseTestCase
         return ErClient::make($this->clientId, $this->clientSecret, $version)
             ->setBaseUrl($this->baseUrl);
     }
+
+    protected function getMicrosoftSharepointTestConfig(): array
+    {
+        return [
+            'site_name' => $_ENV['MS_SP_SITE_NAME'],
+            'channel_name' => $_ENV['MS_SP_CHANNEL_NAME'],
+        ];
+    }
 }
