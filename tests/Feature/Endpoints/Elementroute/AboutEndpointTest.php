@@ -5,11 +5,17 @@ use ElementRoute\ElementRouteSdkPhp\Exceptions\InvalidHttpMethodException;
 use ElementRoute\ElementRouteSdkPhp\HttpMethod;
 use Psr\Http\Message\ResponseInterface;
 
-describe('GET elementroute/about', function () {
+describe('General: elementroute/about', function () {
     it('has correct path', function () {
         $path = AboutEndpoint::getPath();
 
         expect($path)->toBe('elementroute/about');
+    });
+});
+
+describe('GET elementroute/about', function () {
+    test('HTTP method is allowed', function () {
+        expect(AboutEndpoint::isMethodAllowed(HttpMethod::GET))->toBeTrue();
     });
 
     it('does not require authentication', function () {
@@ -47,6 +53,10 @@ describe('GET elementroute/about', function () {
 });
 
 describe('POST elementroute/about', function () {
+    test('HTTP method is not allowed', function () {
+        expect(AboutEndpoint::isMethodAllowed(HttpMethod::POST))->toBeFalse();
+    });
+
     it('errors if try to run from client fluent endpoint with invalid HTTP method (POST)', function () {
         $client = $this->makeErClient();
         $client->elementroute()->about()->post();
@@ -54,6 +64,10 @@ describe('POST elementroute/about', function () {
 });
 
 describe('PUT elementroute/about', function () {
+    test('HTTP method is not allowed', function () {
+        expect(AboutEndpoint::isMethodAllowed(HttpMethod::PUT))->toBeFalse();
+    });
+
     it('errors if try to run from client fluent endpoint with invalid HTTP method (PUT)', function () {
         $client = $this->makeErClient();
         $client->elementroute()->about()->put();
@@ -61,6 +75,10 @@ describe('PUT elementroute/about', function () {
 });
 
 describe('PATCH elementroute/about', function () {
+    test('HTTP method is not allowed', function () {
+        expect(AboutEndpoint::isMethodAllowed(HttpMethod::PATCH))->toBeFalse();
+    });
+
     it('errors if try to run from client fluent endpoint with invalid HTTP method (PATCH)', function () {
         $client = $this->makeErClient();
         $client->elementroute()->about()->patch();
@@ -68,6 +86,10 @@ describe('PATCH elementroute/about', function () {
 });
 
 describe('DELETE elementroute/about', function () {
+    test('HTTP method is not allowed', function () {
+        expect(AboutEndpoint::isMethodAllowed(HttpMethod::DELETE))->toBeFalse();
+    });
+
     it('errors if try to run from client fluent endpoint with invalid HTTP method (DELETE)', function () {
         $client = $this->makeErClient();
         $client->elementroute()->about()->delete();

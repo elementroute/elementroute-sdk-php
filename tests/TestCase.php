@@ -39,6 +39,8 @@ abstract class TestCase extends BaseTestCase
         return [
             'site_name' => $_ENV['MS_SP_SITE_NAME'],
             'channel_name' => $_ENV['MS_SP_CHANNEL_NAME'],
+            'file_path' => $_ENV['MS_TEST_FILE_PATH'],
+            'large_file_path' => $_ENV['MS_TEST_LARGE_FILE_PATH'],
         ];
     }
 

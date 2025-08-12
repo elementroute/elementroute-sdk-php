@@ -6,11 +6,17 @@ use ElementRoute\ElementRouteSdkPhp\HttpMethod;
 use GuzzleHttp\Exception\ClientException;
 use Psr\Http\Message\ResponseInterface;
 
-describe('GET run/{runId}', function () {
+describe('General: run/{runId}', function () {
     it('has correct path', function () {
         $path = _RunId_Endpoint::getPath();
 
         expect($path)->toBe('run/{runId}');
+    });
+});
+
+describe('GET run/{runId}', function () {
+    test('HTTP method is allowed', function () {
+        expect(_RunId_Endpoint::isMethodAllowed(HttpMethod::GET))->toBeTrue();
     });
 
     it('requires authentication', function () {
@@ -71,6 +77,10 @@ describe('GET run/{runId}', function () {
 });
 
 describe('POST run/{runId}', function () {
+    test('HTTP method is not allowed', function () {
+        expect(_RunId_Endpoint::isMethodAllowed(HttpMethod::POST))->toBeFalse();
+    });
+
     it('errors if try to run from client fluent endpoint with invalid HTTP method (POST)', function () {
         $client = $this->makeErClient();
         $client->run()->_id_('any-id')->post();
@@ -78,6 +88,10 @@ describe('POST run/{runId}', function () {
 });
 
 describe('PUT run/{runId}', function () {
+    test('HTTP method is not allowed', function () {
+        expect(_RunId_Endpoint::isMethodAllowed(HttpMethod::PUT))->toBeFalse();
+    });
+
     it('errors if try to run from client fluent endpoint with invalid HTTP method (PUT)', function () {
         $client = $this->makeErClient();
         $client->run()->_id_('any-id')->put();
@@ -85,6 +99,10 @@ describe('PUT run/{runId}', function () {
 });
 
 describe('PATCH run/{runId}', function () {
+    test('HTTP method is not allowed', function () {
+        expect(_RunId_Endpoint::isMethodAllowed(HttpMethod::PATCH))->toBeFalse();
+    });
+
     it('errors if try to run from client fluent endpoint with invalid HTTP method (PATCH)', function () {
         $client = $this->makeErClient();
         $client->run()->_id_('any-id')->patch();
@@ -92,6 +110,10 @@ describe('PATCH run/{runId}', function () {
 });
 
 describe('DELETE run/{runId}', function () {
+    test('HTTP method is not allowed', function () {
+        expect(_RunId_Endpoint::isMethodAllowed(HttpMethod::DELETE))->toBeFalse();
+    });
+
     it('errors if try to run from client fluent endpoint with invalid HTTP method (DELETE)', function () {
         $client = $this->makeErClient();
         $client->run()->_id_('any-id')->delete();

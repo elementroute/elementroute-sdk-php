@@ -105,7 +105,10 @@ abstract class Endpoint
             $options['query'] = $query;
         }
 
-        // TODO: prepare all query parameters
+        if (count($body) > 0) {
+            $options['json'] = $body;
+        }
+
         // TODO: prepare all body parameters
         // TODO: prepare all header parameters
 

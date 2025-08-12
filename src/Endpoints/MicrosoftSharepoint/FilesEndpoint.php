@@ -17,4 +17,9 @@ class FilesEndpoint extends MicrosoftSharepointEndpoint
     ];
 
     protected static bool $isValidEndpoint = true;
+
+    protected static array $allowedMethods = [
+        HttpMethod::GET,
+        HttpMethod::POST,
+    ];
 }
