@@ -16,9 +16,13 @@ abstract class Endpoint
     /** @var class-string<Endpoint>|null */
     protected static ?string $parentEndpoint = null;
 
-    protected static bool $requiresAuth = true;
+    protected static array|bool $requiresAuth = true;
 
     protected static bool $isValidEndpoint;
+
+    protected static array $allowedMethods = [
+        HttpMethod::GET,
+    ];
 
     protected array $options = [];
 
@@ -35,11 +39,6 @@ abstract class Endpoint
 
     // ----------------------------------------
 
-    public function getClient(): ErClient
-    {
-        return $this->client;
-    }
-
     public static function getPath(): string
     {
         $path = '';
@@ -55,6 +54,29 @@ abstract class Endpoint
         return $path.static::$path;
     }
 
+    public static function requiresAuth(HttpMethod $httpMethod): bool
+    {
+        if (is_bool(static::$requiresAuth)) {
+            return static::$requiresAuth;
+        }
+
+        if (! isset(static::$requiresAuth[$httpMethod->value])) {
+            throw new InvalidHttpMethodException('Method auth not set');
+        }
+
+        return static::$requiresAuth[$httpMethod->value];
+    }
+
+    public static function isMethodAllowed(HttpMethod $httpMethod): bool
+    {
+        return in_array($httpMethod, static::$allowedMethods);
+    }
+
+    public function getClient(): ErClient
+    {
+        return $this->client;
+    }
+
     public function getPathWithReplaces(): string
     {
         return preg_replace_callback(
@@ -64,11 +86,6 @@ abstract class Endpoint
         );
     }
 
-    public static function requiresAuth(): bool
-    {
-        return static::$requiresAuth;
-    }
-
     /**
      * @throws GuzzleException
      */
@@ -76,6 +93,10 @@ abstract class Endpoint
     {
         if (! static::$isValidEndpoint) {
             throw new InvalidEndpointException('This endpoint is not valid. Maybe its path is not complete.');
+        }
+
+        if (! static::isMethodAllowed($httpMethod)) {
+            throw new InvalidHttpMethodException('HTTP method not allowed for endpoint');
         }
 
         $options = $this->options;
@@ -88,7 +109,7 @@ abstract class Endpoint
         // TODO: prepare all body parameters
         // TODO: prepare all header parameters
 
-        return $this->client->runHttpRequest($httpMethod, static::getPathWithReplaces(), static::requiresAuth(), $options);
+        return $this->client->runHttpRequest($httpMethod, static::getPathWithReplaces(), static::requiresAuth($httpMethod), $options);
     }
 
     /**

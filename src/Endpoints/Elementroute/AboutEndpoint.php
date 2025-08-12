@@ -10,7 +10,7 @@ class AboutEndpoint extends ElementrouteEndpoint
 
     protected static ?string $parentEndpoint = ElementrouteEndpoint::class;
 
-    protected static bool $requiresAuth = false;
+    protected static array|bool $requiresAuth = false;
 
     protected static bool $isValidEndpoint = true;
 }

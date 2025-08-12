@@ -1,6 +1,8 @@
 <?php
 
 use ElementRoute\ElementRouteSdkPhp\Endpoints\MicrosoftSharepoint\FilesEndpoint;
+use ElementRoute\ElementRouteSdkPhp\Exceptions\InvalidHttpMethodException;
+use ElementRoute\ElementRouteSdkPhp\HttpMethod;
 use GuzzleHttp\Exception\ServerException;
 use Psr\Http\Message\ResponseInterface;
 
@@ -12,7 +14,7 @@ describe('GET microsoft-sharepoint/file', function () {
     });
 
     it('requires authentication', function () {
-        expect(FilesEndpoint::requiresAuth())->toBeTrue();
+        expect(FilesEndpoint::requiresAuth(HttpMethod::GET))->toBeTrue();
     });
 
     it('can run with valid parameters', function () {
@@ -72,26 +74,25 @@ describe('GET microsoft-sharepoint/file', function () {
     })->expectException(ServerException::class);
 });
 
-describe('POST microsoft-sharepoint/file', function () {
-})->todo();
+describe('POST microsoft-sharepoint/file', function () {});
 
 describe('PUT microsoft-sharepoint/file', function () {
     it('errors if try to run from client fluent', function () {
         $client = $this->makeErClient();
         $client->microsoftSharepoint()->files()->put();
-    })->expectException(ServerException::class);
+    })->expectException(InvalidHttpMethodException::class);
 });
 
 describe('PATCH microsoft-sharepoint/file', function () {
     it('errors if try to run from client fluent', function () {
         $client = $this->makeErClient();
         $client->microsoftSharepoint()->files()->patch();
-    })->expectException(ServerException::class);
+    })->expectException(InvalidHttpMethodException::class);
 });
 
 describe('DELETE microsoft-sharepoint/file', function () {
     it('errors if try to run from client fluent', function () {
         $client = $this->makeErClient();
         $client->microsoftSharepoint()->files()->delete();
-    })->expectException(ServerException::class);
+    })->expectException(InvalidHttpMethodException::class);
 });

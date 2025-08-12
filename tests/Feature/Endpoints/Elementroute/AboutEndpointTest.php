@@ -1,7 +1,8 @@
 <?php
 
 use ElementRoute\ElementRouteSdkPhp\Endpoints\Elementroute\AboutEndpoint;
-use GuzzleHttp\Exception\ServerException;
+use ElementRoute\ElementRouteSdkPhp\Exceptions\InvalidHttpMethodException;
+use ElementRoute\ElementRouteSdkPhp\HttpMethod;
 use Psr\Http\Message\ResponseInterface;
 
 describe('GET elementroute/about', function () {
@@ -12,7 +13,7 @@ describe('GET elementroute/about', function () {
     });
 
     it('does not require authentication', function () {
-        expect(AboutEndpoint::requiresAuth())->toBeFalse();
+        expect(AboutEndpoint::requiresAuth(HttpMethod::GET))->toBeFalse();
     });
 
     it('can run', function () {
@@ -49,26 +50,26 @@ describe('POST elementroute/about', function () {
     it('errors if try to run from client fluent endpoint with invalid HTTP method (POST)', function () {
         $client = $this->makeErClient();
         $client->elementroute()->about()->post();
-    })->expectException(ServerException::class);
+    })->expectException(InvalidHttpMethodException::class);
 });
 
 describe('PUT elementroute/about', function () {
     it('errors if try to run from client fluent endpoint with invalid HTTP method (PUT)', function () {
         $client = $this->makeErClient();
         $client->elementroute()->about()->put();
-    })->expectException(ServerException::class);
+    })->expectException(InvalidHttpMethodException::class);
 });
 
 describe('PATCH elementroute/about', function () {
     it('errors if try to run from client fluent endpoint with invalid HTTP method (PATCH)', function () {
         $client = $this->makeErClient();
         $client->elementroute()->about()->patch();
-    })->expectException(ServerException::class);
+    })->expectException(InvalidHttpMethodException::class);
 });
 
 describe('DELETE elementroute/about', function () {
     it('errors if try to run from client fluent endpoint with invalid HTTP method (DELETE)', function () {
         $client = $this->makeErClient();
         $client->elementroute()->about()->delete();
-    })->expectException(ServerException::class);
+    })->expectException(InvalidHttpMethodException::class);
 });

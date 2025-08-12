@@ -4,9 +4,19 @@ namespace ElementRoute\ElementRouteSdkPhp;
 
 enum HttpMethod: string
 {
-    case GET = 'get';
-    case POST = 'post';
-    case PUT = 'put';
-    case PATCH = 'patch';
-    case DELETE = 'delete';
+    const GET_VALUE = 'get';
+
+    const POST_VALUE = 'post';
+
+    const PUT_VALUE = 'put';
+
+    const PATCH_VALUE = 'patch';
+
+    const DELETE_VALUE = 'delete';
+
+    case GET = self::GET_VALUE;
+    case POST = self::POST_VALUE;
+    case PUT = self::PUT_VALUE;
+    case PATCH = self::PATCH_VALUE;
+    case DELETE = self::DELETE_VALUE;
 }

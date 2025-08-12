@@ -1,8 +1,9 @@
 <?php
 
 use ElementRoute\ElementRouteSdkPhp\Endpoints\Run\_RunId_Endpoint;
+use ElementRoute\ElementRouteSdkPhp\Exceptions\InvalidHttpMethodException;
+use ElementRoute\ElementRouteSdkPhp\HttpMethod;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ServerException;
 use Psr\Http\Message\ResponseInterface;
 
 describe('GET run/{runId}', function () {
@@ -13,7 +14,7 @@ describe('GET run/{runId}', function () {
     });
 
     it('requires authentication', function () {
-        expect(_RunId_Endpoint::requiresAuth())->toBeTrue();
+        expect(_RunId_Endpoint::requiresAuth(HttpMethod::GET))->toBeTrue();
     });
 
     test('path with replaces works correctly', function () {
@@ -73,26 +74,26 @@ describe('POST run/{runId}', function () {
     it('errors if try to run from client fluent endpoint with invalid HTTP method (POST)', function () {
         $client = $this->makeErClient();
         $client->run()->_id_('any-id')->post();
-    })->expectException(ServerException::class);
+    })->expectException(InvalidHttpMethodException::class);
 });
 
 describe('PUT run/{runId}', function () {
     it('errors if try to run from client fluent endpoint with invalid HTTP method (PUT)', function () {
         $client = $this->makeErClient();
         $client->run()->_id_('any-id')->put();
-    })->expectException(ServerException::class);
+    })->expectException(InvalidHttpMethodException::class);
 });
 
 describe('PATCH run/{runId}', function () {
     it('errors if try to run from client fluent endpoint with invalid HTTP method (PATCH)', function () {
         $client = $this->makeErClient();
         $client->run()->_id_('any-id')->patch();
-    })->expectException(ServerException::class);
+    })->expectException(InvalidHttpMethodException::class);
 });
 
 describe('DELETE run/{runId}', function () {
     it('errors if try to run from client fluent endpoint with invalid HTTP method (DELETE)', function () {
         $client = $this->makeErClient();
         $client->run()->_id_('any-id')->delete();
-    })->expectException(ServerException::class);
+    })->expectException(InvalidHttpMethodException::class);
 });

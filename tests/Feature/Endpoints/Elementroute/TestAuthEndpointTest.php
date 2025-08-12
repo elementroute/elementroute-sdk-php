@@ -1,7 +1,8 @@
 <?php
 
 use ElementRoute\ElementRouteSdkPhp\Endpoints\Elementroute\TestAuthEndpoint;
-use GuzzleHttp\Exception\ServerException;
+use ElementRoute\ElementRouteSdkPhp\Exceptions\InvalidHttpMethodException;
+use ElementRoute\ElementRouteSdkPhp\HttpMethod;
 use Psr\Http\Message\ResponseInterface;
 
 describe('GET elementroute/test-auth', function () {
@@ -12,7 +13,7 @@ describe('GET elementroute/test-auth', function () {
     });
 
     it('requires authentication', function () {
-        expect(TestAuthEndpoint::requiresAuth())->toBeTrue();
+        expect(TestAuthEndpoint::requiresAuth(HttpMethod::GET))->toBeTrue();
     });
 
     it('can run', function () {
@@ -49,26 +50,26 @@ describe('POST elementroute/test-auth', function () {
     it('errors if try to run from client fluent endpoint with invalid HTTP method (POST)', function () {
         $client = $this->makeErClient();
         $client->elementroute()->testAuth()->post();
-    })->expectException(ServerException::class);
+    })->expectException(InvalidHttpMethodException::class);
 });
 
 describe('PUT elementroute/test-auth', function () {
     it('errors if try to run from client fluent endpoint with invalid HTTP method (PUT)', function () {
         $client = $this->makeErClient();
         $client->elementroute()->testAuth()->put();
-    })->expectException(ServerException::class);
+    })->expectException(InvalidHttpMethodException::class);
 });
 
 describe('PATCH elementroute/test-auth', function () {
     it('errors if try to run from client fluent endpoint with invalid HTTP method (PATCH)', function () {
         $client = $this->makeErClient();
         $client->elementroute()->testAuth()->patch();
-    })->expectException(ServerException::class);
+    })->expectException(InvalidHttpMethodException::class);
 });
 
 describe('DELETE elementroute/test-auth', function () {
     it('errors if try to run from client fluent endpoint with invalid HTTP method (DELETE)', function () {
         $client = $this->makeErClient();
         $client->elementroute()->testAuth()->delete();
-    })->expectException(ServerException::class);
+    })->expectException(InvalidHttpMethodException::class);
 });
