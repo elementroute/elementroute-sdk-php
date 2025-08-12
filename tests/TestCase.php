@@ -41,4 +41,9 @@ abstract class TestCase extends BaseTestCase
             'channel_name' => $_ENV['MS_SP_CHANNEL_NAME'],
         ];
     }
+
+    protected function getRunId(): string
+    {
+        return $_ENV['RUN_ID'];
+    }
 }

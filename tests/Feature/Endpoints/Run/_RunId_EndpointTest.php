@@ -3,6 +3,7 @@
 use ElementRoute\ElementRouteSdkPhp\Endpoints\Run\_RunId_Endpoint;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
+use Psr\Http\Message\ResponseInterface;
 
 describe('GET run/{runId}', function () {
     it('has correct path', function () {
@@ -25,6 +26,7 @@ describe('GET run/{runId}', function () {
 
     it('returns "Not found" error if an invalid ID is used', function () {
         $client = $this->makeErClient();
+
         try {
             $client->run()->_id_('not-a-valid-id')->get();
 
@@ -38,12 +40,33 @@ describe('GET run/{runId}', function () {
     });
 
     it('can run', function () {
-        // TODO
-    })->todo();
+        $client = $this->makeErClient();
+        $endpoint = new _RunId_Endpoint($client, $this->getRunId());
+
+        $response = $endpoint->get();
+        $responseContent = $response->getBody()->getContents();
+
+        expect($response)->toBeInstanceOf(ResponseInterface::class)
+            ->and($response->getStatusCode())->toBe(200)
+            ->and($response->getHeader('Content-Type'))->toContain('application/json')
+            ->and($responseContent)->toBeString()
+            ->and($responseContent)->toBeJson()
+            ->and($responseContent)->toContain('"data":{"id":"'.$this->getRunId().'"')
+            ->and($responseContent)->toContain('"status":"success"');
+    });
 
     it('can run from client fluent endpoint', function () {
-        // TODO
-    })->todo();
+        $response = $this->makeErClient()->run()->_id_($this->getRunId())->get();
+        $responseContent = $response->getBody()->getContents();
+
+        expect($response)->toBeInstanceOf(ResponseInterface::class)
+            ->and($response->getStatusCode())->toBe(200)
+            ->and($response->getHeader('Content-Type'))->toContain('application/json')
+            ->and($responseContent)->toBeString()
+            ->and($responseContent)->toBeJson()
+            ->and($responseContent)->toContain('"data":{"id":"'.$this->getRunId().'"')
+            ->and($responseContent)->toContain('"status":"success"');
+    });
 });
 
 describe('POST run/{runId}', function () {

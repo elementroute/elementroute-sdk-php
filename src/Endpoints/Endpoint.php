@@ -88,7 +88,7 @@ abstract class Endpoint
         // TODO: prepare all body parameters
         // TODO: prepare all header parameters
 
-        return $this->client->runHttpRequest($httpMethod, static::getPath(), static::requiresAuth(), $options);
+        return $this->client->runHttpRequest($httpMethod, static::getPathWithReplaces(), static::requiresAuth(), $options);
     }
 
     /**
