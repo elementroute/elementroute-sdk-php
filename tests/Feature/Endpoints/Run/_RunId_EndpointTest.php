@@ -47,8 +47,8 @@ describe('GET run/{runId}', function () {
     });
 
     it('can run', function () {
-        $client = $this->makeErClient();
-        $endpoint = new _RunId_Endpoint($client, $this->getRunId());
+        $client = $this->makeErClientForMicrosoftSharepoint();
+        $endpoint = new _RunId_Endpoint($client, $this->getMicrosoftSharepointTestConfig()['run_id']);
 
         $response = $endpoint->get();
         $responseContent = $response->getBody()->getContents();
@@ -58,12 +58,12 @@ describe('GET run/{runId}', function () {
             ->and($response->getHeader('Content-Type'))->toContain('application/json')
             ->and($responseContent)->toBeString()
             ->and($responseContent)->toBeJson()
-            ->and($responseContent)->toContain('"data":{"id":"'.$this->getRunId().'"')
+            ->and($responseContent)->toContain('"data":{"id":"'.$this->getMicrosoftSharepointTestConfig()['run_id'].'"')
             ->and($responseContent)->toContain('"status":"success"');
     });
 
     it('can run from client fluent endpoint', function () {
-        $response = $this->makeErClient()->run()->_id_($this->getRunId())->get();
+        $response = $this->makeErClientForMicrosoftSharepoint()->run()->_id_($this->getMicrosoftSharepointTestConfig()['run_id'])->get();
         $responseContent = $response->getBody()->getContents();
 
         expect($response)->toBeInstanceOf(ResponseInterface::class)
@@ -71,7 +71,7 @@ describe('GET run/{runId}', function () {
             ->and($response->getHeader('Content-Type'))->toContain('application/json')
             ->and($responseContent)->toBeString()
             ->and($responseContent)->toBeJson()
-            ->and($responseContent)->toContain('"data":{"id":"'.$this->getRunId().'"')
+            ->and($responseContent)->toContain('"data":{"id":"'.$this->getMicrosoftSharepointTestConfig()['run_id'].'"')
             ->and($responseContent)->toContain('"status":"success"');
     });
 });

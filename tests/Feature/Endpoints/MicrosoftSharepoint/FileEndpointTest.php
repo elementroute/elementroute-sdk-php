@@ -24,7 +24,7 @@ describe('GET microsoft-sharepoint/file', function () {
     });
 
     it('can run with valid parameters', function () {
-        $client = $this->makeErClient();
+        $client = $this->makeErClientForMicrosoftSharepoint();
         $endpoint = new FilesEndpoint($client);
 
         $response = $endpoint->get(query: [
@@ -34,6 +34,7 @@ describe('GET microsoft-sharepoint/file', function () {
                 'internal_id' => 12345,
             ]),
         ]);
+
         $responseContent = $response->getBody()->getContents();
 
         expect($response)->toBeInstanceOf(ResponseInterface::class)
@@ -48,13 +49,16 @@ describe('GET microsoft-sharepoint/file', function () {
     });
 
     it('can run fluently with valid parameters', function () {
-        $response = $this->makeErClient()->microsoftSharepoint()->files()->get(query: [
-            'site_name' => $this->getMicrosoftSharepointTestConfig()['site_name'],
-            'channel' => $this->getMicrosoftSharepointTestConfig()['channel_name'],
-            '_meta_' => json_encode([
-                'internal_id' => 987654,
-            ]),
-        ]);
+        $response = $this->makeErClientForMicrosoftSharepoint()
+            ->microsoftSharepoint()
+            ->files()
+            ->get(query: [
+                'site_name' => $this->getMicrosoftSharepointTestConfig()['site_name'],
+                'channel' => $this->getMicrosoftSharepointTestConfig()['channel_name'],
+                '_meta_' => json_encode([
+                    'internal_id' => 987654,
+                ]),
+            ]);
 
         $responseContent = $response->getBody()->getContents();
 
@@ -70,12 +74,15 @@ describe('GET microsoft-sharepoint/file', function () {
     });
 
     it('errors if missing required parameters', function () {
-        $this->makeErClient()->microsoftSharepoint()->files()->get(query: [
-            //  Site name is required!
-            // 'site_name' => $this->getMicrosoftSharepointTestConfig()['site_name'],
+        $this->makeErClientForMicrosoftSharepoint()
+            ->microsoftSharepoint()
+            ->files()
+            ->get(query: [
+                //  Site name is required!
+                // 'site_name' => $this->getMicrosoftSharepointTestConfig()['site_name'],
 
-            'channel' => $this->getMicrosoftSharepointTestConfig()['channel_name'],
-        ]);
+                'channel' => $this->getMicrosoftSharepointTestConfig()['channel_name'],
+            ]);
     })->expectException(ServerException::class);
 });
 
@@ -91,7 +98,7 @@ describe('POST microsoft-sharepoint/file', function () {
     it('can run with small file', function () {
         $file_name = 'Test upload from PHP SDK '.time();
 
-        $response = $this->makeErClient()->microsoftSharepoint()->files()->post(body: [
+        $response = $this->makeErClientForMicrosoftSharepoint()->microsoftSharepoint()->files()->post(body: [
             'site_name' => $this->getMicrosoftSharepointTestConfig()['site_name'],
             'channel' => $this->getMicrosoftSharepointTestConfig()['channel_name'],
             'file_path' => $this->getMicrosoftSharepointTestConfig()['file_path'],
@@ -118,7 +125,7 @@ describe('POST microsoft-sharepoint/file', function () {
         $count = 0;
 
         do {
-            $run = $this->makeErClient()->run()->_id_($runId)->get()
+            $run = $this->makeErClientForMicrosoftSharepoint()->run()->_id_($runId)->get()
                 ->getBody()->getContents();
 
             $status = json_decode($run, true)['data']['status']['id'];
@@ -140,12 +147,12 @@ describe('POST microsoft-sharepoint/file', function () {
 
             break;
         } while (true);
-    });
+    })->skip('Skipped by default because this actually pushes a file to remote server');
 
     it('can run with large file', function () {
         $file_name = 'Test large upload from PHP SDK '.time();
 
-        $response = $this->makeErClient()->microsoftSharepoint()->files()->post(body: [
+        $response = $this->makeErClientForMicrosoftSharepoint()->microsoftSharepoint()->files()->post(body: [
             'site_name' => $this->getMicrosoftSharepointTestConfig()['site_name'],
             'channel' => $this->getMicrosoftSharepointTestConfig()['channel_name'],
             'file_path' => $this->getMicrosoftSharepointTestConfig()['large_file_path'],
@@ -172,7 +179,7 @@ describe('POST microsoft-sharepoint/file', function () {
         $count = 0;
 
         do {
-            $run = $this->makeErClient()->run()->_id_($runId)->get()
+            $run = $this->makeErClientForMicrosoftSharepoint()->run()->_id_($runId)->get()
                 ->getBody()->getContents();
 
             $status = json_decode($run, true)['data']['status']['id'];
@@ -194,7 +201,7 @@ describe('POST microsoft-sharepoint/file', function () {
 
             break;
         } while (true);
-    });
+    })->skip('Skipped by default because this actually pushes a file to remote server');
 
     it('errors if missing required parameters', function () {
         // TODO
@@ -207,7 +214,7 @@ describe('PUT microsoft-sharepoint/file', function () {
     });
 
     it('errors if try to run from client fluent', function () {
-        $client = $this->makeErClient();
+        $client = $this->makeErClientForMicrosoftSharepoint();
         $client->microsoftSharepoint()->files()->put();
     })->expectException(InvalidHttpMethodException::class);
 });
@@ -218,7 +225,7 @@ describe('PATCH microsoft-sharepoint/file', function () {
     });
 
     it('errors if try to run from client fluent', function () {
-        $client = $this->makeErClient();
+        $client = $this->makeErClientForMicrosoftSharepoint();
         $client->microsoftSharepoint()->files()->patch();
     })->expectException(InvalidHttpMethodException::class);
 });
@@ -229,7 +236,7 @@ describe('DELETE microsoft-sharepoint/file', function () {
     });
 
     it('errors if try to run from client fluent', function () {
-        $client = $this->makeErClient();
+        $client = $this->makeErClientForMicrosoftSharepoint();
         $client->microsoftSharepoint()->files()->delete();
     })->expectException(InvalidHttpMethodException::class);
 });

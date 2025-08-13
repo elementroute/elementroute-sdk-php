@@ -8,7 +8,7 @@ class AboutEndpoint extends ElementrouteEndpoint
 {
     protected static string $path = 'about';
 
-    protected static ?string $parentEndpoint = ElementrouteEndpoint::class;
+    protected static ?string $parentEndpoint = parent::class;
 
     protected static array|bool $requiresAuth = false;
 

@@ -8,7 +8,7 @@ class TestAuthEndpoint extends ElementrouteEndpoint
 {
     protected static string $path = 'test-auth';
 
-    protected static ?string $parentEndpoint = ElementrouteEndpoint::class;
+    protected static ?string $parentEndpoint = parent::class;
 
     protected static bool $isValidEndpoint = true;
 }

@@ -9,7 +9,7 @@ class _RunId_Endpoint extends RunEndpoint
 {
     protected static string $path = '{runId}';
 
-    protected static ?string $parentEndpoint = RunEndpoint::class;
+    protected static ?string $parentEndpoint = parent::class;
 
     protected static bool $isValidEndpoint = true;
 

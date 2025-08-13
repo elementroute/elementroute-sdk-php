@@ -1,13 +1,13 @@
 <?php
 
-namespace ElementRoute\ElementRouteSdkPhp\Endpoints\MicrosoftSharepoint;
+namespace ElementRoute\ElementRouteSdkPhp\Endpoints\HpeContentManager;
 
-use ElementRoute\ElementRouteSdkPhp\Endpoints\MicrosoftSharepointEndpoint;
+use ElementRoute\ElementRouteSdkPhp\Endpoints\HpeContentManagerEndpoint;
 use ElementRoute\ElementRouteSdkPhp\HttpMethod;
 
-class FilesEndpoint extends MicrosoftSharepointEndpoint
+class RecordsEndpoint extends HpeContentManagerEndpoint
 {
-    protected static string $path = 'files';
+    protected static string $path = 'records';
 
     protected static ?string $parentEndpoint = parent::class;
 

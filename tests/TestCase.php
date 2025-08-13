@@ -9,29 +9,54 @@ use PHPUnit\Framework\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
-    protected string $clientId;
-
-    protected string $clientSecret;
-
-    protected string $baseUrl;
-
     protected function setUp(): void
     {
         parent::setUp();
 
         $dotenv = Dotenv::createImmutable(__DIR__.'/..');
         $dotenv->load();
-        $dotenv->required(['CLIENT_ID', 'CLIENT_SECRET', 'BASE_URL'])->notEmpty();
+        $dotenv->required([
+            'BASE_URL',
+            'TEST_FILE_PATH',
+            'TEST_LARGE_FILE_PATH',
 
-        $this->clientId = $_ENV['CLIENT_ID'];
-        $this->clientSecret = $_ENV['CLIENT_SECRET'];
-        $this->baseUrl = $_ENV['BASE_URL'];
+            'HPE_CM_CLIENT_ID',
+            'HPE_CM_CLIENT_SECRET',
+            'HPE_CM_RUN_ID',
+            'HPE_CM_RECORD_TYPE',
+            'HPE_CM_CONTAINER_ID',
+            'HPE_CM_AUTHOR_ID',
+            'HPE_CM_AUTHOR_EMAIL',
+
+            'MS_SP_CLIENT_ID',
+            'MS_SP_CLIENT_SECRET',
+            'MS_SP_RUN_ID',
+            'MS_SP_SITE_NAME',
+            'MS_SP_CHANNEL_NAME',
+        ])->notEmpty();
     }
 
     protected function makeErClient(ApiVersion $version = ApiVersion::V1): ErClient
     {
-        return ErClient::make($this->clientId, $this->clientSecret, $version)
-            ->setBaseUrl($this->baseUrl);
+        return $this->makeErClientForMicrosoftSharepoint($version);
+    }
+
+    protected function makeErClientForMicrosoftSharepoint(ApiVersion $version = ApiVersion::V1): ErClient
+    {
+        return ErClient::make(
+            clientId: $_ENV['MS_SP_CLIENT_ID'],
+            clientSecret: $_ENV['MS_SP_CLIENT_SECRET'],
+            version: $version,
+        )->setBaseUrl($_ENV['BASE_URL']);
+    }
+
+    protected function makeErClientForHpeContentManager(ApiVersion $version = ApiVersion::V1): ErClient
+    {
+        return ErClient::make(
+            clientId: $_ENV['HPE_CM_CLIENT_ID'],
+            clientSecret: $_ENV['HPE_CM_CLIENT_SECRET'],
+            version: $version,
+        )->setBaseUrl($_ENV['BASE_URL']);
     }
 
     protected function getMicrosoftSharepointTestConfig(): array
@@ -39,13 +64,23 @@ abstract class TestCase extends BaseTestCase
         return [
             'site_name' => $_ENV['MS_SP_SITE_NAME'],
             'channel_name' => $_ENV['MS_SP_CHANNEL_NAME'],
-            'file_path' => $_ENV['MS_TEST_FILE_PATH'],
-            'large_file_path' => $_ENV['MS_TEST_LARGE_FILE_PATH'],
+            'run_id' => $_ENV['MS_SP_RUN_ID'],
+            'file_path' => $_ENV['TEST_FILE_PATH'],
+            'large_file_path' => $_ENV['TEST_LARGE_FILE_PATH'],
         ];
     }
 
-    protected function getRunId(): string
+    protected function getHpeContentManagerTestConfig(): array
     {
-        return $_ENV['RUN_ID'];
+        return [
+            'record_type' => $_ENV['HPE_CM_RECORD_TYPE'],
+            'container_id' => $_ENV['HPE_CM_CONTAINER_ID'],
+            'author_id' => $_ENV['HPE_CM_AUTHOR_ID'],
+            'author_email' => $_ENV['HPE_CM_AUTHOR_EMAIL'],
+
+            'run_id' => $_ENV['HPE_CM_RUN_ID'],
+            'file_path' => $_ENV['TEST_FILE_PATH'],
+            'large_file_path' => $_ENV['TEST_LARGE_FILE_PATH'],
+        ];
     }
 }
