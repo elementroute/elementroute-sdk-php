@@ -109,8 +109,9 @@ abstract class Endpoint
             $options['json'] = $body;
         }
 
-        // TODO: prepare all body parameters
-        // TODO: prepare all header parameters
+        if (count($headers) > 0) {
+            $options['headers'] = $headers;
+        }
 
         return $this->client->runHttpRequest($httpMethod, static::getPathWithReplaces(), static::requiresAuth($httpMethod), $options);
     }
