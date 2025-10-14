@@ -2,7 +2,7 @@
     "name": "elementroute/elementroute-sdk-php",
     "description": "PHP SDK for elementROUTE API",
     "type": "library",
-    "licence": "MIT",
+    "license": "MIT",
     "authors": [
         {
             "name": "Leo Oberle",
