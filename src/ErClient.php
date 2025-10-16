@@ -11,7 +11,7 @@ class ErClient
         Concerns\HasEndpoints,
         Concerns\RunsHttpRequests;
 
-    protected string $baseUrl = 'https://www.elementroute.com/api';
+    protected string $baseUrl = 'https://app.elementroute.com/api';
 
     protected Client $client;
 

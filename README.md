@@ -39,7 +39,7 @@ $client = ErClient::make(
 );
 
 // Optional: Set a custom base URL (for testing or different environments)
-$client->setBaseUrl('https://custom.elementroute.com/api');
+$client->setBaseUrl('https://elementroute.local:8080/api');
 ```
 
 ### API Versioning
@@ -277,7 +277,7 @@ The SDK supports fluent method chaining for clean, readable code:
 
 ```php
 $response = ErClient::make('client-id', 'client-secret')
-    ->setBaseUrl('https://api.elementroute.com/api')
+    ->setBaseUrl('https://elementroute.local:8080/api')
     ->microsoftSharepoint()
     ->files()
     ->get(query: ['site_name' => 'my-site']);
@@ -324,7 +324,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 For testing, create a `.env` file in the project root with your credentials:
 
 ```env
-BASE_URL=https://www.elementroute.com/api
+BASE_URL=https://elementroute.local:8080/api/
 
 # Microsoft SharePoint Configuration
 MS_SP_CLIENT_ID=your-client-id
